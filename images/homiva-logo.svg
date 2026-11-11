@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 120">
+<rect width="420" height="120" rx="18" fill="#193523"/>
+<path d="M28 58 L68 20 L108 58 V98 H28 Z" fill="none" stroke="#d5a64b" stroke-width="7" stroke-linejoin="round"/>
+<path d="M55 98 V66 H82 V98" fill="none" stroke="#d5a64b" stroke-width="6"/>
+<text x="132" y="69" font-family="Arial,sans-serif" font-size="55" font-weight="800" fill="#fffdf8" letter-spacing="2">HOMIVA</text>
+<text x="135" y="96" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#d5a64b" letter-spacing="5">HOME &amp; LIVING</text>
+</svg>
