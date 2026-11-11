@@ -1,15 +1,41 @@
 // غيّر رقم واتساب إلى رقم المتجر بصيغة دولية بدون + أو مسافات.
 const STORE_WHATSAPP = "201000000000"; // مثال مصري مؤقت — استبدله برقمك الحقيقي
 
+// صورة بديلة تظهر لو صورة المنتج مش موجودة
+const PLACEHOLDER = "data:image/svg+xml;utf8," + encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" width="700" height="500"><rect width="100%" height="100%" fill="#f1eee7"/><text x="50%" y="50%" font-size="48" font-family="Arial" fill="#193523" text-anchor="middle" dominant-baseline="middle">HOMIVA</text></svg>'
+);
+
+// صور المنتجات في فولدر images/
 const products = [
-  {id:1,name:"طقم حلل جرانيت",category:"أدوات المطبخ",price:899,old:1200,image:"https://images.unsplash.com/photo-1584990347449-a8a2f1c3b3b3?auto=format&fit=crop&w=700&q=80",discount:"25%"},
-  {id:2,name:"طقم أطباق فاخر",category:"أدوات المطبخ",price:599,old:750,image:"https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=700&q=80",discount:"20%"},
-  {id:3,name:"قلاية هوائية",category:"الأجهزة الصغيرة",price:1950,old:3000,image:"https://images.unsplash.com/photo-1648047932015-3e9f4d8f1f1c?auto=format&fit=crop&w=700&q=80",discount:"35%"},
-  {id:4,name:"علب تخزين متعددة الأحجام",category:"تنظيم المنزل",price:299,old:400,image:"https://images.unsplash.com/photo-1589365278144-c9e705f843ba?auto=format&fit=crop&w=700&q=80",discount:"25%"},
-  {id:5,name:"مساحة أرضيات عملية",category:"أدوات التنظيف",price:315,old:450,image:"https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=700&q=80",discount:"30%"},
-  {id:6,name:"طقم فوط قطنية",category:"المفروشات",price:249,old:320,image:"https://images.unsplash.com/photo-1600369671236-e74521d4b6ad?auto=format&fit=crop&w=700&q=80",discount:"22%"},
-  {id:7,name:"غلاية مياه كهربائية",category:"الأجهزة الصغيرة",price:650,old:800,image:"https://images.unsplash.com/photo-1594213114663-d94db9b1716?auto=format&fit=crop&w=700&q=80",discount:"18%"},
-  {id:8,name:"منظم أدوات المطبخ",category:"تنظيم المنزل",price:180,old:230,image:"https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=700&q=80",discount:"20%"}
+  // ===== أدوات المطبخ =====
+  {id:1,name:"طقم حلل جرانيت",category:"أدوات المطبخ",price:899,old:1200,image:"images/granite-cookware.jpg",discount:"25%"},
+  {id:2,name:"طقم حلل ستانلس ستيل",category:"أدوات المطبخ",price:1250,old:1650,image:"images/stainless-cookware.jpg",discount:"24%"},
+  {id:3,name:"طقم سكاكين مع حامل",category:"أدوات المطبخ",price:320,old:400,image:"images/knife-set.jpg",discount:"20%"},
+
+  // ===== الأجهزة الصغيرة =====
+  {id:4,name:"قلاية هوائية",category:"الأجهزة الصغيرة",price:1950,old:3000,image:"images/air-fryer.jpg",discount:"35%"},
+  {id:5,name:"خلاط كهربائي",category:"الأجهزة الصغيرة",price:780,old:1000,image:"images/blender.jpg",discount:"22%"},
+  {id:6,name:"مكواة بخار محمولة",category:"الأجهزة الصغيرة",price:450,old:600,image:"images/garment-steamer.jpg",discount:"25%"},
+  {id:7,name:"صانعة ساندويتشات",category:"الأجهزة الصغيرة",price:590,old:750,image:"images/sandwich-maker.jpg",discount:"21%"},
+
+  // ===== أدوات التنظيف =====
+  {id:8,name:"ممسحة دوارة مع جردل",category:"أدوات التنظيف",price:520,old:700,image:"images/spin-mop.jpg",discount:"26%"},
+  {id:9,name:"مجموعة بخاخات تنظيف",category:"أدوات التنظيف",price:210,old:280,image:"images/cleaning-sprays.jpg",discount:"25%"},
+  {id:10,name:"سلة مهملات ستانلس بدواسة",category:"أدوات التنظيف",price:340,old:450,image:"images/trash-bin.jpg",discount:"24%"},
+
+  // ===== تنظيم المنزل =====
+  {id:11,name:"علب حفظ الطعام",category:"تنظيم المنزل",price:260,old:340,image:"images/food-containers.jpg",discount:"24%"},
+  {id:12,name:"رفوف خشبية للمطبخ",category:"تنظيم المنزل",price:399,old:550,image:"images/kitchen-shelves.jpg",discount:"27%"},
+  {id:13,name:"أدراج تخزين متعددة",category:"تنظيم المنزل",price:680,old:900,image:"images/storage-drawers.jpg",discount:"24%"},
+  {id:14,name:"منشر ملابس قابل للطي",category:"تنظيم المنزل",price:520,old:690,image:"images/clothes-drying-rack.jpg",discount:"25%"},
+
+  // ===== المفروشات =====
+  {id:15,name:"مفرش سرير كامل",category:"المفروشات",price:850,old:1100,image:"images/bedding-set.jpg",discount:"23%"},
+  {id:16,name:"مناشف قطنية",category:"المفروشات",price:249,old:320,image:"images/bath-towels.jpg",discount:"22%"},
+  {id:17,name:"ستائر منزلية",category:"المفروشات",price:560,old:700,image:"images/curtains.jpg",discount:"20%"},
+  {id:18,name:"وسائد ديكور",category:"المفروشات",price:480,old:620,image:"images/decorative-cushions.jpg",discount:"23%"},
+  {id:19,name:"سجادة وموكيت",category:"المفروشات",price:690,old:900,image:"images/area-rug.jpg",discount:"23%"}
 ];
 
 let cart = [];
@@ -31,7 +57,7 @@ function renderProducts(){
   productsGrid.innerHTML = filtered.map(p => `
     <article class="product-card">
       <span class="discount">خصم ${p.discount}</span>
-      <div class="product-image"><img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=700&q=80'"></div>
+      <div class="product-image"><img src="${p.image}" alt="${p.name}" loading="lazy" style="object-position:left center" onerror="this.onerror=null;this.src=PLACEHOLDER"></div>
       <div class="product-info">
         <span class="product-category">${p.category}</span>
         <h3>${p.name}</h3>
@@ -66,7 +92,7 @@ function renderCart(){
   if(!cart.length){cartItems.innerHTML='<p class="empty-state">السلة فارغة، ابدأ التسوق الآن 🛍️</p>';}
   else cartItems.innerHTML=cart.map(item=>{
     const p=products.find(x=>x.id===item.id);
-    return `<div class="cart-row"><img src="${p.image}" alt=""><div><b>${p.name}</b><small>${money(p.price)}</small><button class="remove-btn" onclick="removeItem(${p.id})">حذف</button></div><div class="quantity"><button onclick="changeQty(${p.id},1)">+</button><b>${item.qty}</b><button onclick="changeQty(${p.id},-1)">−</button></div></div>`;
+    return `<div class="cart-row"><img src="${p.image}" alt="" onerror="this.onerror=null;this.src=PLACEHOLDER"><div><b>${p.name}</b><small>${money(p.price)}</small><button class="remove-btn" onclick="removeItem(${p.id})">حذف</button></div><div class="quantity"><button onclick="changeQty(${p.id},1)">+</button><b>${item.qty}</b><button onclick="changeQty(${p.id},-1)">−</button></div></div>`;
   }).join("");
 }
 function openCart(){cartDrawer.classList.add("open");overlay.classList.add("show");}
